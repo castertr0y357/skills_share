@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <!--Javascript files-->
+    <script src="{% static "RecipeBook/jquery-3.4.1.js" %}"></script>
+    <script src="{% static "RecipeBook/jquery-3.4.1.min.js" %}"></script>
+    <!--<script src="{% static "RecipeBook/js/menu_1.4.js" %}"></script>-->
+
+    <!--CSS files-->
+    <link rel="stylesheet" href="{% static "RecipeBook/css/nav_ul_0.10.css" %}"/>
+    <link rel="stylesheet" href="{% static "RecipeBook/css/table_1.5.css" %}"/>
+    <link rel="stylesheet" href="{% static "RecipeBook/css/scrolling_1.6.css" %}"/>
+
+    {% block title %}
+        <title>Recipe Book</title>
+    {% endblock title %}
+
+    {% block scripts %}
+
+    {% endblock scripts %}
+
+    {% block head %}
+
+    {% endblock head %}
+</head>
+<body>
+    <table style="width: 100%; border-spacing: 0; border-collapse: collapse">
+        <tr style="width: 100%">
+            <td style="width: 100%; border: none">
+                <header id="nav_header" style="background: white; border-bottom: dashed 1px #000000">
+                    <div class="menu" id="site_nav" style="width: 100%">
+                        <ul class="nav" id="menu">
+                            <li><a href="{% url 'RecipeBook:main' %}">Home</a></li>
+                            {# <li><a href="{% url 'RecipeBook:aboutPage' %}">About</a></li> #}
+                            <li><a href="{% url 'RecipeBook:category_list' %}">Categories</a></li>
+                            <li><a href="{% url 'RecipeBook:add_recipe' %}">Add Recipe</a></li>
+                            <li><a href="{% url 'RecipeBook:shopping_list' %}">Shopping List</a></li>
+                            <li><a href="{% url 'RecipeBook:meal_planner' %}">Meal Planner</a></li>
+                            <li style="float: right">
+                                <form action="{% url 'RecipeBook:search_results' %}" method="post" name="search" title="Search">
+                                    {% csrf_token %}
+                                    {{ search_form.search_name.label_tag }} {{ search_form.search_name }}
+                                    <input type="submit" value="search">
+                                </form>
+                            </li>
+                            <li style="float: right">
+                                {% if user.is_authenticated %}
+                                    Welcome <a href="{% url 'RecipeBook:profile_detail' user.username %}"> {{ user }}</a> | <a href="{% url 'RecipeBook:logout' %}">Logout</a>
+                                {% else %}
+                                    <a href="{% url 'RecipeBook:login' %}">Login</a> | <a href="{% url 'RecipeBook:create_user' %}">Create Account</a>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                </header>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 100%; border: none">
+                <div class="container">
+                    {% block body %}
+
+                    {% endblock body %}
+                </div>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

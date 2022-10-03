@@ -1,0 +1,47 @@
+{% extends 'RecipeBook/base_page.html' %}
+
+    {% block title %}
+        <title>Search Results for {{ name }}</title>
+    {% endblock title %}
+
+    {% block scripts %}
+        <script type="text/javascript">let url = "{% url 'RecipeBook:search_results' %}";</script>
+        <script type="text/javascript">let name = "{{ name }}";</script>
+        {% load static %}
+        <script src="{% static 'RecipeBook/js/search_results_1.0.js' %}"></script>
+
+    {% endblock scripts %}
+
+    {% block body %}
+        <h1>Search results for {{ name }}</h1>
+        {% if recipes %}
+            <div class="long_scrolling">
+                <table class="data" id="results">
+                    <thead>
+                        <tr>
+                            <th class="th" id="th_name" data-sort="name" data-asc="true">Recipe <span></span></th>
+                            <th class="th" id="th_servings" data-sort="servings" data-asc="true"># of Servings <span></span></th>
+                            <th class="th" id="th_time" data-sort="total_time" data-asc="true">Total time <span></span></th>
+                            <th>Source <span></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for recipe in recipes %}
+                            <tr>
+                                <td><a href="{{ recipe.get_absolute_url }}">{{ recipe }}</a></td>
+                                <td>{{ recipe.servings }}</td>
+                                <td>{{ recipe.total_time }} minutes</td>
+                                <td>
+                                    {% if recipe.link %}
+                                        <a href="{{ recipe.link }}">{{ recipe.link }}</a>
+                                    {% else %}
+                                        {{ recipe.source }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    {% endblock body %}

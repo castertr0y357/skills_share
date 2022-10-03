@@ -1,0 +1,42 @@
+{% extends "RecipeBook/base_page.html" %}
+
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static "RecipeBook/css/stats_1.3.css" %}"/>
+{% endblock head %}
+
+{% block body %}
+    <div class="stats">
+        <h1 class="stats">Recipe Book</h1>
+        <table class="stats">
+            <tr>
+                <td class="stats">
+                    <h2>Categories: {{ categories.count }} total categories</h2>
+                    <div style="align-self: center; width: fit-content; text-align: center; margin: auto">
+                        <h4>Most Popular Categories:</h4>
+                        <ol style="text-align: left;">
+                            {% for category in categories %}
+                                <li><a href="{% url 'RecipeBook:category_detail' category.slug %}">{{ category }}</a></li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class="stats">
+                    <h2>Recipes: {{ recipes.count }} total recipes</h2>
+                    <div style="align-self: center; width: fit-content; text-align: center; margin: auto">
+                        <h4>Most Recent Recipes:</h4>
+                        <ol style="text-align: left">
+                            {% for recipe in recipes %}
+                                <li><a href="{% url 'RecipeBook:view_recipe' recipe.slug %}">{{ recipe }}</a></li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+{% endblock body %}

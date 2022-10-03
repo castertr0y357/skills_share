@@ -1,0 +1,55 @@
+{% extends 'RecipeBook/base_page.html' %}
+
+{% block title %}
+    <title>{{ username }} profile page</title>
+{% endblock %}
+
+{% block body %}
+    <h1>Profile Page for {{ username }}</h1>
+
+    {% if user == username %}
+        <h2>Account options:</h2>
+        <ul>
+            <li><a href="{% url "RecipeBook:password_change" %}">Change Password</a></li>
+        </ul>
+    {% endif %}
+
+    <h2>Information:</h2>
+    <ul>
+        <li>Name: {{ username.first_name }} {{ username.last_name }}</li>
+        <li>Date Joined: {{ username.date_joined }}</li>
+        <li># of recipes submitted: {{ recipes_submitted.count }}</li>
+    </ul>
+
+    {% if recipes_submitted.count > 0 %}
+        <h2>Recipes Submitted:</h2>
+        <div class="scrolling">
+            <table id="submitted_list">
+                <thead>
+                    <tr>
+                        <th class="th" id="th_recipe" data-sort="name" data-asc="true">Recipe <span></span></th>
+                        <th class="th" id="th_servings" data-sort="servings" data-asc="true"># of Servings <span></span></th>
+                        <th class="th" id="th_time" data-sort="total_time" data-asc="true">Total time <span></span></th>
+                        <th>Recipe Source <span></span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for recipe in recipes_submitted %}
+                        <tr>
+                            <td><a href="{{ recipe.get_absolute_url }}">{{ recipe }}</a></td>
+                            <td>{{ recipe.servings }}</td>
+                            <td>{{ recipe.total_time }}</td>
+                            <td>
+                                {% if recipe.link %}
+                                    <a href="{{ recipe.link }}">{{ recipe.link }}</a>
+                                {% else %}
+                                    {{ recipe.source }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}

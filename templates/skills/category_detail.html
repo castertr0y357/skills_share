@@ -1,0 +1,46 @@
+{% extends 'RecipeBook/base_page.html' %}
+
+    {% block title %}
+        <title>Category-{{ category }}</title>
+    {% endblock title %}
+
+    {% block scripts %}
+        <script type="text/javascript">let url = "{{ category.get_absolute_url }}";</script>
+        {% load static %}
+        <script src="{% static 'RecipeBook/js/category_detail_1.0.js' %}"></script>
+
+    {% endblock scripts %}
+
+    {% block body %}
+        {% if category %}
+            <h1>{{ category }}</h1>
+            <div class="long_scrolling">
+                <table class="data" id="recipe_list">
+                    <thead>
+                        <tr>
+                            <th class="th" id="th_recipe" data-sort="name" data-asc="true">Recipe <span></span></th>
+                            <th class="th" id="th_servings" data-sort="servings" data-asc="true"># of Servings <span></span></th>
+                            <th class="th" id="th_time" data-sort="total_time" data-asc="true">Total time <span></span></th>
+                            <th>Recipe Source <span></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for recipe in category.recipes %}
+                            <tr>
+                                <td><a href="{{ recipe.get_absolute_url }}">{{ recipe }}</a></td>
+                                <td>{{ recipe.servings }}</td>
+                                <td>{{ recipe.total_time }}</td>
+                                <td>
+                                    {% if recipe.link %}
+                                        <a href="{{ recipe.link }}">{{ recipe.link }}</a>
+                                    {% else %}
+                                        {{ recipe.source }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    {% endblock body %}

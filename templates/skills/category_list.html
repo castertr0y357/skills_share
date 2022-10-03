@@ -1,0 +1,38 @@
+{% extends 'RecipeBook/base_page.html' %}
+
+    {% block title %}
+        <title>Categories</title>
+    {% endblock title %}
+
+    {% block scripts %}
+        <script type="text/javascript">let url = {% url 'RecipeBook:category_list' %};</script>
+        {% load static %}
+        <script src="{% static 'RecipeBook/js/category_list_1.0.js' %}"></script>
+
+    {% endblock scripts %}
+
+    {% block body %}
+        {% if categories %}
+            <h1>Categories</h1>
+            <div class="long_scrolling">
+                <table class="data" id="categories_list">
+                    <thead>
+                        <tr>
+                            <th class="th" id="th_name" data-sort="name" data-asc="true">Name <span></span></th>
+                            <th class="th" id="th_recipe_count" data-sort="recipe_count" data-asc="true"># of Recipes <span></span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for category in categories %}
+                            {% if category.recipes.count > 0%}
+                                <tr>
+                                    <td><a href="{{ category.get_absolute_url }}">{{ category }}</a></td>
+                                    <td>{{ category.recipes.count }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    {% endblock body %}

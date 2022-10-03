@@ -1,0 +1,64 @@
+{% extends 'RecipeBook/base_page.html' %}
+
+{% block title %}
+    <title>Create Account</title>
+{% endblock %}
+
+{% block head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static "RecipeBook/css/login_0.1.css" %}"/>
+{% endblock %}
+
+{% block body %}
+    <div class="login" style="vertical-align: middle; height: 100%; margin-top: 10%">
+        <table class="login" style="border: none; margin-top: auto; margin-bottom: auto">
+            <tr>
+                <td>
+                    {% if form.errors %}
+                        <p>Your username and password didn't match.  Please try again</p>
+                    {% endif %}
+
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <table>
+                                <tr>
+                                    <td>{{ account_form.username.label_tag }}</td>
+                                    <td>{{ account_form.username }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ account_form.password1.label_tag }}</td>
+                                    <td>{{ account_form.password1 }}
+                                        {{ account_form.password1.help_text }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{ account_form.password2.label_tag }}</td>
+                                    <td>{{ account_form.password2 }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ account_form.first_name.label_tag }}</td>
+                                    <td>{{ account_form.first_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ account_form.last_name.label_tag }}</td>
+                                    <td>{{ account_form.last_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ account_form.email.label_tag }}</td>
+                                    <td>{{ account_form.email }}</td>
+                                </tr>
+                        </table>
+                        <div style="padding-top: 5px">
+                            <input type="submit" value="Create Account"/>
+                            <input type="hidden" name="next" value="{{ next }}"/>
+                        </div>
+                    </form>
+
+                    <p>
+                        Already registered? <a href="{% url 'RecipeBook:login' %}">Login</a>
+                    </p>
+                </td>
+            </tr>
+        </table>
+    </div>
+{% endblock %}
